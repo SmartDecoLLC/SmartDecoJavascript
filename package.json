@@ -1,0 +1,20 @@
+{
+  "name": "smartdeco",
+  "version": "0.0.1",
+  "description": "",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "deploy": "now --alias smartdeco.ai"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tedbarnett/SmartDeco.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tedbarnett/SmartDeco/issues"
+  },
+  "homepage": "https://github.com/tedbarnett/SmartDeco#readme"
+}

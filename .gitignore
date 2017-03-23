@@ -1,0 +1,11 @@
+.DS_Store
+*.log
+.env*
+*.lnk
+node_modules
+*.sublime-project
+*.sublime-workspace
+*.wav
+*.rej
+bundle*.js
+*.zip
