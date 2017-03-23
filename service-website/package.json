@@ -1,12 +1,11 @@
 {
   "name": "smartdeco",
   "version": "0.0.1",
-  "description": "",
   "private": true,
   "main": "index.js",
   "scripts": {
     "deploy": "now --alias smartdeco.ai",
-    "start": "serve ."
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -19,6 +18,12 @@
   },
   "homepage": "https://github.com/tedbarnett/SmartDeco#readme",
   "dependencies": {
-    "serve": "^5.0.4"
-  }
+    "body-parser": "^1.17.1",
+    "cors": "^2.8.1",
+    "dotenv": "^4.0.0",
+    "express": "^4.15.2",
+    "mustache-express": "^1.2.4"
+  },
+  "devDependencies": {},
+  "description": ""
 }
