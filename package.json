@@ -5,7 +5,8 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "deploy": "now --alias smartdeco.ai"
+    "deploy": "now --alias smartdeco.ai",
+    "start": "serve ."
   },
   "repository": {
     "type": "git",
@@ -16,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/tedbarnett/SmartDeco/issues"
   },
-  "homepage": "https://github.com/tedbarnett/SmartDeco#readme"
+  "homepage": "https://github.com/tedbarnett/SmartDeco#readme",
+  "dependencies": {
+    "serve": "^5.0.4"
+  }
 }
