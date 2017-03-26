@@ -110,5 +110,15 @@ const speaker = new Speaker({
 const fsm = state()
 //fsm.addState('IDLE', idleState())
 
+/*
+from Ted:
+
+To enable this, I set up a new Chatflow for "jokes" at the following POST URL:
+
+https://chatflow.kitt.ai/users/589a66c40aef320100506cca/apps/610f31da.d2024/api/jokes?token=atJ7IYNV3ac1kafSpJ
+
+This chatflow returns a header that includes "pumpkinStatus", but it doesn't need to look for stories to record
+or anything that complicated. It simply needs to call back Chatflow as the Boswell interview page does.
+*/
 
 mic.pipe(detector)
