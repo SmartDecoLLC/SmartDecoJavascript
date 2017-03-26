@@ -48,22 +48,14 @@ const speech_to_text = new STT({
 
 const models = new Models()
 
-/*
 models.add({
-  file: __dirname + '/smartdeco-pumpkin.pmdl',
+  file: __dirname + '/resources/Pumpkin.pmdl',
   sensitivity: '0.5',
   hotwords : 'pumpkin'
 })
 
-models.add({
-  file: __dirname + '/smartdeco-jabbering-jack.pmdl',
-  sensitivity: '0.5',
-  hotwords : 'jabbering-jack'
-})
-*/
-
 const detector = new Detector({
-  resource: 'resources/common.res',
+  resource: __dirname + '/resources/common.res',
   models: models,
   audioGain: 2.0
 })
@@ -90,6 +82,12 @@ detector.on('hotword', function (index, hotword) {
       recognizerStream.close()
     }
   })
+
+  try {
+    let body = await sendDialog(text)
+  } catch(err) {
+    return console.error(err)
+  }
 
   mic.pipe(recognizerStream).pipe(process.stdout)
   */
