@@ -1,0 +1,21 @@
+[Unit]
+Description=smartdeco service
+After=syslog.target network.target
+
+[Service]
+Type=simple
+User=pi
+Group=pi
+WorkingDirectory=/home/pi/SmartDeco/service-interview
+ExecStart=/usr/bin/node /home/pi/SmartDeco/service-interview/index.js
+Environment="NODE_ENV=production"
+Environment="AWS_REGION=us-east-1"
+Restart=on-failure
+KillSignal=SIGINT
+# Tag things in the log
+SyslogIdentifier=smartdeco
+#StandardOutput=syslog
+
+[Install]
+WantedBy=multi-user.target
+

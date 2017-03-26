@@ -1,0 +1,20 @@
+{
+  "name": "service-interview",
+  "version": "0.0.1",
+  "description": "command line interview agent",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.32.0",
+    "dotenv": "^4.0.0",
+    "node-record-lpcm16": "^0.2.0",
+    "snowboy": "^1.1.0",
+    "speaker": "^0.3.0",
+    "watson-developer-cloud": "^2.27.1"
+  }
+}
