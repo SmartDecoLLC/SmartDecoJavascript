@@ -1,3 +1,5 @@
+#service-interview
+
 a voice interaction agent based on Snowboy for wakeword detection, IBM Watson for speech-to-text, 
 and Amazon Polly for text-to-speech.
 
@@ -15,3 +17,10 @@ and Amazon Polly for text-to-speech.
 * `index.js` the entry point for the interaction agent
 * `INSTALL.md` install instructions
 * `install.sh` linux shell script to install dependencies
+
+
+## installation
+
+```bash
+./install.sh
+```
