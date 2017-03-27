@@ -84,7 +84,8 @@ detector.on('hotword', async function (index, hotword) {
 
 const mic = record.start({
   threshold: 0,
-  verbose: false
+  verbose: true,
+  recordProgram: 'arecord'
 })
 
 const speaker = new Speaker({
