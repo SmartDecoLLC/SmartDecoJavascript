@@ -28,10 +28,11 @@ module.exports = function getPollyTTSURL(text) {
   // pcm is in signed 16-bit, 1 channel (mono), little-endian format
   // https://github.com/aws/aws-sdk-js/blob/master/clients/polly.d.ts#L237
   return polly.getSynthesizeSpeechUrl({
-    OutputFormat: 'mp3',
+    OutputFormat: 'pcm', // mp3, pcm
 
     // Valid values for pcm are "8000" and "16000" The default value is "16000"
-    SampleRate: '22050',
+    // 22050 for mp3
+    SampleRate: '16000',
 
     Text: text,
     VoiceId: pollyVoice

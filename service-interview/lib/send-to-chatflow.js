@@ -1,6 +1,7 @@
 'use strict'
 
-const request = require('request')
+const entities = require('entities')
+const request  = require('request')
 
 
 module.exports = async function sendToChatflow(text) {

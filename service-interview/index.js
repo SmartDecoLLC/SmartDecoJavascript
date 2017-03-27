@@ -6,7 +6,6 @@ const Speaker  = require('speaker')
 const STT      = require('watson-developer-cloud/speech-to-text/v1')
 const chatflow = require('./lib/send-to-chatflow')
 const dotenv   = require('dotenv').config()
-const entities = require('entities')
 const fs       = require('fs')
 const https    = require('https')
 const record   = require('node-record-lpcm16')
@@ -14,90 +13,176 @@ const state    = require('./lib/finite-state-machine')
 const ttsAudio = require('./lib/get-polly-tts-url')
 
 
-const speech_to_text = new STT({
-  username: process.env.WATSON_USERNAME,
-  password: process.env.WATSON_PASSWORD
-})
+function idleState() {
+  const models = new Models()
 
-const models = new Models()
-
-models.add({
-  file: __dirname + '/resources/Pumpkin.pmdl',
-  sensitivity: '0.5',
-  hotwords : 'pumpkin'
-})
-
-const detector = new Detector({
-  resource: __dirname + '/resources/common.res',
-  models: models,
-  audioGain: 2.0
-})
-
-detector.on('error', function (er) {
-  console.log('snowboy error', er)
-})
-
-detector.on('hotword', async function (index, hotword) {
-  //fs.createReadStream(__dirname + '/resources/1.wav').pipe(speaker)
-
-  console.log('hotword', index, hotword)
-
-  const ttsURL = ttsAudio('Hello Ted. I am a pumpkin.')
-
-  // get TTS audio and pipe to speaker
-  https.get(ttsURL, function(res) { res.pipe(speaker) }) 
-
-
-  const recognizerStream = speech_to_text.createRecognizeStream({ content_type: 'audio/l16; rate=16000', continuous: true, inactivity_timeout: 1, interim_results: false })
-
-  recognizerStream.on('error', function(event) {
-    console.log('er', event)
+  models.add({
+    file: __dirname + '/resources/Pumpkin.pmdl',
+    sensitivity: '0.5',
+    hotwords : 'pumpkin'
   })
 
-  recognizerStream.on('close', function(event) {
-    console.log('watson speech socket closed')
-    mic.unpipe()
+  const detector = new Detector({
+    resource: __dirname + '/resources/common.res',
+    models: models,
+    audioGain: 2.0
   })
 
   /*
-  recognizerStream.on('data', function(data) {
-    let failed = processInput(data.toString())
-    if (failed) {
-      recognizerStream.close()
-    }
+  detector.on('error', function (er) {
+    console.log('snowboy error', er)
   })
-
-  try {
-    const body = await chatflow(text)
-    const ttsURL = ttsAudio(body.response)
-
-    // get TTS audio and pipe to speaker
-    https.get(url, function(res) { res.pipe(speaker) }) 
-
-  } catch(err) {
-    return console.error(err)
-  }
   */
 
-  mic.pipe(recognizerStream).pipe(process.stdout)
-})
+  detector.on('hotword', async function(index, hotword) {
+    //fs.createReadStream(__dirname + '/resources/1.wav').pipe(speaker)
+    console.log('hotword', index, hotword)
+
+    fsm.setState('LISTENING')
+  })
+
+  let enter = function() {
+    mic.pipe(detector)
+  }
+
+  let exit = function() {
+    mic.unpipe()
+  }
+
+  return Object.freeze({ enter, exit })
+}
+
+
+function startingState() {
+  let enter = function() {
+    const ttsURL = ttsAudio('Hello Ted. Say "pumpkin" to interact with me.')
+
+    // get TTS audio and pipe to speaker
+    https.get(ttsURL, function(res) {
+      const speaker = new Speaker({
+        channels: 1,          // 2 channels 
+        bitDepth: 16,         // 16-bit samples 
+        sampleRate: 16000,
+        signed: true
+      })
+      res.pipe(speaker)
+
+      speaker.on('close', function() {
+        fsm.setState('IDLE')
+      })
+    })
+  }
+
+  let exit = function() {
+
+  }
+
+  return Object.freeze({ enter, exit })
+}
+
+
+function listeningState() {
+  let enter = function() {
+    const ttsURL = ttsAudio('I am listening...')
+
+    // get TTS audio and pipe to speaker
+    https.get(ttsURL, function(res) {
+      const speaker = new Speaker({
+        channels: 1,          // 2 channels 
+        bitDepth: 16,         // 16-bit samples 
+        sampleRate: 16000,
+        signed: true
+      })
+      res.pipe(speaker)
+
+      speaker.on('close', function() {
+        fsm.setState('RECORDING')
+      })
+
+    })
+  }
+
+  let exit = function() {
+
+  }
+
+  return Object.freeze({ enter, exit })
+}
+
+
+function recordingState() {
+  let recognizerStream, text
+
+  const speech_to_text = new STT({
+    username: process.env.WATSON_USERNAME,
+    password: process.env.WATSON_PASSWORD
+  })
+
+  let enter = function() {
+    text = ''
+    recognizerStream = speech_to_text.createRecognizeStream({ content_type: 'audio/l16; rate=16000', continuous: true, inactivity_timeout: 1 })
+
+    recognizerStream.on('error', function(event) {
+      //console.log('er', event)
+    })
+
+    recognizerStream.on('close', async function(event) {
+      console.log('\nWatson speech socket closed')
+
+      try {
+        console.log('sending text to chatflow:', text)
+        const body = await chatflow(text)
+        console.log('got chatflow response', body.response)
+        const ttsURL = ttsAudio(body.response)
+
+        // get TTS audio and pipe to speaker
+        https.get(ttsURL, function(res) {
+
+          const speaker = new Speaker({
+            channels: 1,          // 2 channels 
+            bitDepth: 16,         // 16-bit samples 
+            sampleRate: 16000,
+            signed: true
+          })
+          res.pipe(speaker)
+
+          speaker.on('close', function() {
+            fsm.setState('IDLE')
+          })
+        })
+      } catch(err) {
+        console.error(err)
+        fsm.setState('IDLE')
+      }
+    })
+    
+    recognizerStream.on('data', function(data) {
+      text += data.toString()
+      console.log('watson stt results:', data.toString())
+    })
+
+    mic.pipe(recognizerStream)
+    //mic.pipe(recognizerStream).pipe(process.stdout)
+  }
+
+  let exit = function() {
+    mic.unpipe()
+    recognizerStream = undefined
+  }
+
+  return Object.freeze({ enter, exit })
+}
+
 
 const mic = record.start({
   threshold: 0,
-  verbose: true,
-  recordProgram: 'arecord'
+  verbose: false
 })
 
-const speaker = new Speaker({
-  channels: 2,          // 2 channels 
-  bitDepth: 32,         // 16-bit samples 
-  sampleRate: 44100,
-  signed: true
-})
+const fsm = state()
+fsm.addState('STARTING', startingState())
+fsm.addState('IDLE', idleState())
+fsm.addState('LISTENING', listeningState())
+fsm.addState('RECORDING', recordingState())
 
-
-// TODO: set up application states
-//const fsm = state()
-//fsm.addState('IDLE', idleState())
-
-mic.pipe(detector)
+fsm.setState('STARTING')

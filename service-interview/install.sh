@@ -13,12 +13,16 @@ sudo apt-get update
 
 sudo apt-get upgrade
 
-
 # install and configure dependencies required by snowboy
 sudo apt-get install python-pyaudio python3-pyaudio sox libatlas-base-dev libmagic-dev libasound2-dev
 #wget https://bootstrap.pypa.io/get-pip.py
 #python get-pip.py
 #pip install pyaudio
+
+
+# on my laptop, this fixes the "Illegal instruction: 4" segfault that happens when a speaker stream closes
+# perhaps this is unnecessary on pi but listing here just in case
+#npm install speaker --mpg123-backend=openal
 
 
 npm install
