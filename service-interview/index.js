@@ -73,9 +73,7 @@ function startingState() {
     })
   }
 
-  let exit = function() {
-
-  }
+  let exit = function() { }
 
   return Object.freeze({ enter, exit })
 }
@@ -128,6 +126,8 @@ function recordingState() {
 
     recognizerStream.on('close', async function(event) {
       console.log('\nWatson speech socket closed')
+
+      if (!text) return fsm.setState('IDLE')
 
       try {
         console.log('sending text to chatflow:', text)
