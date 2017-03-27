@@ -33,6 +33,10 @@ const detector = new Detector({
   audioGain: 2.0
 })
 
+detector.on('error', function (er) {
+  console.log('snowboy error', er)
+})
+
 detector.on('hotword', async function (index, hotword) {
   //fs.createReadStream(__dirname + '/resources/1.wav').pipe(speaker)
 
@@ -89,3 +93,6 @@ const fsm = state()
 //fsm.addState('IDLE', idleState())
 
 mic.pipe(detector)
+
+console.log('okayyyy')
+
