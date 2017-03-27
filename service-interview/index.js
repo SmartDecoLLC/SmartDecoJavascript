@@ -2,71 +2,60 @@
 
 const Detector = require('snowboy').Detector
 const Models   = require('snowboy').Models
-const Speaker  = require('speaker')
 const STT      = require('watson-developer-cloud/speech-to-text/v1')
 const chatflow = require('./lib/send-to-chatflow')
 const dotenv   = require('dotenv').config()
-const fs       = require('fs')
-const https    = require('https')
 const record   = require('node-record-lpcm16')
 const state    = require('./lib/finite-state-machine')
-const ttsAudio = require('./lib/get-polly-tts-url')
+const tts      = require('./lib/tts')
 
-
-async function tts(text) {
-  return new Promise(function(resolve, reject) {
-    const ttsURL = ttsAudio(text)
-
-    https.get(ttsURL, function(res) {
-      const speaker = new Speaker({
-        channels: 1,          // 2 channels 
-        bitDepth: 16,         // 16-bit samples 
-        sampleRate: 16000,
-        signed: true
-      })
-      res.pipe(speaker)
-
-      speaker.on('close', function() {
-        resolve()
-      })
-    })
-  })
-}
 
 function idleState() {
+  let mic
   const models = new Models()
 
   models.add({
     file: __dirname + '/resources/Pumpkin.pmdl',
-    sensitivity: '0.5',
+    sensitivity: '0.4',
     hotwords : 'pumpkin'
   })
 
   const detector = new Detector({
     resource: __dirname + '/resources/common.res',
     models: models,
+
+    // Detection sensitivity controls how sensitive the detection is.
+    // It is a value between 0 and 1. Increasing the sensitivity value
+    // leads to better detection rate, but also higher false alarm rate.
+    // It is an important parameter that you should play with in your 
+    // actual application.
+    sensitivity: 0.7,
+
+    // audioGain controls whether to increase (>1) or decrease (<1) input volume.
     audioGain: 2.0
   })
 
-  /*
   detector.on('error', function (er) {
     console.log('snowboy error', er)
   })
-  */
 
   detector.on('hotword', async function(index, hotword) {
-    //fs.createReadStream(__dirname + '/resources/1.wav').pipe(speaker)
     console.log('hotword', index, hotword)
-
     fsm.setState('LISTENING')
   })
 
   let enter = function() {
+    mic = record.start({
+      threshold: 0,
+      verbose: false
+    })
+
     mic.pipe(detector)
   }
 
   let exit = function() {
-    mic.unpipe()
+    record.stop()
+    mic.unpipe(detector)
   }
 
   return Object.freeze({ enter, exit })
@@ -100,7 +89,7 @@ function listeningState() {
 
 
 function recordingState() {
-  let recognizerStream, text
+  let recognizerStream, text, mic
 
   const speech_to_text = new STT({
     username: process.env.WATSON_USERNAME,
@@ -108,8 +97,13 @@ function recordingState() {
   })
 
   let enter = async function() {
+    mic = record.start({
+      threshold: 0,
+      verbose: false
+    })
+
     text = ''
-    recognizerStream = speech_to_text.createRecognizeStream({ content_type: 'audio/l16; rate=16000', continuous: true, inactivity_timeout: 2 })
+    recognizerStream = speech_to_text.createRecognizeStream({ content_type: 'audio/l16; rate=16000', continuous: true, inactivity_timeout: 1 })
 
     recognizerStream.on('error', function(event) {
       //console.log('er', event)
@@ -120,9 +114,9 @@ function recordingState() {
 
       if (text) {
         try {
-          console.log('sending text to chatflow:', text)
+          console.log('sending to chatflow:', text)
           const body = await chatflow(text)
-          console.log('got chatflow response', body.response)
+          console.log('chatflow response:', body)
           await tts(body.response)
         } catch(err) {
           console.error(err)
@@ -134,26 +128,21 @@ function recordingState() {
     
     recognizerStream.on('data', function(data) {
       text += data.toString()
-      console.log('watson stt results:', data.toString())
+      //console.log('watson stt results:', data.toString())
     })
 
     mic.pipe(recognizerStream)
-    //mic.pipe(recognizerStream).pipe(process.stdout)
   }
 
   let exit = function() {
-    mic.unpipe()
+    record.stop()
+    mic.unpipe(recognizerStream)
     recognizerStream = undefined
   }
 
   return Object.freeze({ enter, exit })
 }
 
-
-const mic = record.start({
-  threshold: 0,
-  verbose: false
-})
 
 const fsm = state()
 fsm.addState('STARTING', startingState())

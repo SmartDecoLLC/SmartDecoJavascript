@@ -1,25 +1,18 @@
 'use strict'
 
 const Polly        = require('aws-sdk/clients/polly').Presigner
+const Speaker      = require('speaker')
 const getVoiceName = require('./get-voice-name')
+//const fs           = require('fs')
+const https        = require('https')
 
-
-/*
-const opts = {
-  format: 'pcm',
-  region: 'us-east-1',
-  text: 'Ready.',
-  voice: 'Brian',
-  sampleRate: 16000
-}
-*/
 
 const polly = new Polly({
   apiVersion: '2016-06-10',
   region: process.env.AWS_REGION
 })
 
-module.exports = function getPollyTTSURL(text) {
+function getPollyTTSURL(text) {
   const halfHourInSeconds = 30 * 60
   const pollyVoice = getVoiceName()
 
@@ -29,7 +22,7 @@ module.exports = function getPollyTTSURL(text) {
   // https://github.com/aws/aws-sdk-js/blob/master/clients/polly.d.ts#L237
   return polly.getSynthesizeSpeechUrl({
     OutputFormat: 'pcm', // mp3, pcm
-
+    
     // Valid values for pcm are "8000" and "16000" The default value is "16000"
     // 22050 for mp3
     SampleRate: '16000',
@@ -37,4 +30,27 @@ module.exports = function getPollyTTSURL(text) {
     Text: text,
     VoiceId: pollyVoice
   }, halfHourInSeconds)
+}
+
+
+module.exports = async function tts(text) {
+  return new Promise(function(resolve, reject) {
+    const ttsURL = getPollyTTSURL(text)
+
+    https.get(ttsURL, function(res) {
+      const speaker = new Speaker({
+        channels: 1,          // 2 channels 
+        bitDepth: 16,         // 16-bit samples 
+        sampleRate: 16000,
+        signed: true
+      })
+
+      //fs.createReadStream(__dirname + '/resources/1.wav').pipe(speaker)
+      res.pipe(speaker)
+
+      speaker.on('close', function() {
+        resolve()
+      })
+    })
+  })
 }
