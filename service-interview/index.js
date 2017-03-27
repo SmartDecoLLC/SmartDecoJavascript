@@ -42,6 +42,11 @@ detector.on('hotword', async function (index, hotword) {
 
   console.log('hotword', index, hotword)
 
+  const ttsURL = ttsAudio('Hello Ted. I am a pumpkin.')
+
+  // get TTS audio and pipe to speaker
+  https.get(url, function(res) { res.pipe(speaker) }) 
+
 
   const recognizerStream = speech_to_text.createRecognizeStream({ content_type: 'audio/l16; rate=16000', continuous: true, inactivity_timeout: 1, interim_results: false })
 
@@ -91,10 +96,7 @@ const speaker = new Speaker({
 
 
 // TODO: set up application states
-const fsm = state()
+//const fsm = state()
 //fsm.addState('IDLE', idleState())
 
 mic.pipe(detector)
-
-console.log('okayyyy')
-
