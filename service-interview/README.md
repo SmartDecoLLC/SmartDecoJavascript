@@ -5,14 +5,14 @@ and Amazon Polly for text-to-speech.
 
 ```
 |- resources/
-|- *.pmdl
+|- asound.conf
 |- index.js
 |- install.sh
 `- smartdeco.service
 ```
 
-* `resources/` stuff needed by snowboy
-* `*.pmdl` snowboy models for wakeword detection
+* `resources/` stuff needed by snowboy, including *.pmdl models for wakeword detection
+* `asound.conf` my file which goes in ~/.asoundrc  might be needed if your machine can't use microphone
 * `home-automation.service` systemd install script
 * `index.js` the entry point for the interaction agent
 * `INSTALL.md` install instructions

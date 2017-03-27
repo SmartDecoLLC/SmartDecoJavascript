@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# on raspbian, apt-get throws an error about chksshpwd. this fixes it
+sudo rm -rf /var/lib/chksshpwd/ ; sudo apt-get install -y libpam-chksshpwd
+
+
 # install node/npm
 curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
 

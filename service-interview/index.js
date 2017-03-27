@@ -42,7 +42,7 @@ detector.on('hotword', async function (index, hotword) {
 
   console.log('hotword', index, hotword)
 
-  /*
+
   const recognizerStream = speech_to_text.createRecognizeStream({ content_type: 'audio/l16; rate=16000', continuous: true, inactivity_timeout: 1, interim_results: false })
 
   recognizerStream.on('error', function(event) {
@@ -51,8 +51,10 @@ detector.on('hotword', async function (index, hotword) {
 
   recognizerStream.on('close', function(event) {
     console.log('watson speech socket closed')
+    mic.unpipe()
   })
 
+  /*
   recognizerStream.on('data', function(data) {
     let failed = processInput(data.toString())
     if (failed) {
@@ -70,9 +72,9 @@ detector.on('hotword', async function (index, hotword) {
   } catch(err) {
     return console.error(err)
   }
+  */
 
   mic.pipe(recognizerStream).pipe(process.stdout)
-  */
 })
 
 const mic = record.start({
