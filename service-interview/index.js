@@ -16,6 +16,12 @@ function idleState() {
 
   models.add({
     file: __dirname + '/resources/Pumpkin.pmdl',
+
+    // Detection sensitivity controls how sensitive the detection is.
+    // It is a value between 0 and 1. Increasing the sensitivity value
+    // leads to better detection rate, but also higher false alarm rate.
+    // It is an important parameter that you should play with in your 
+    // actual application.
     sensitivity: '0.4',
     hotwords : 'pumpkin'
   })
@@ -23,13 +29,6 @@ function idleState() {
   const detector = new Detector({
     resource: __dirname + '/resources/common.res',
     models: models,
-
-    // Detection sensitivity controls how sensitive the detection is.
-    // It is a value between 0 and 1. Increasing the sensitivity value
-    // leads to better detection rate, but also higher false alarm rate.
-    // It is an important parameter that you should play with in your 
-    // actual application.
-    sensitivity: 0.7,
 
     // audioGain controls whether to increase (>1) or decrease (<1) input volume.
     audioGain: 2.0
