@@ -10,6 +10,26 @@ const state    = require('./lib/finite-state-machine')
 const tts      = require('./lib/tts')
 
 
+/*
++-----------+
+| STARTING  |
++----+------+
+     |
+ "hi Ted. Say pumpkin to
+ interact with me"
+     |
+  +--v---+  snowboy detects    +-----------+
+  | IDLE +--wake-word(s) +-----> LISTENING |
+  +--^---+                     +-----+-----+
+     |                               |
+     |                          AWS Polly says:
+     |                          "I am listening"
+     |  watson STT                   |
+     |  speech ended           +-----v-----+
+     +--(1s silence) <---------+ RECORDING |
+                               +-----------+
+*/
+
 function idleState() {
   let mic
   const models = new Models()
