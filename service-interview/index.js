@@ -45,7 +45,7 @@ detector.on('hotword', async function (index, hotword) {
   const ttsURL = ttsAudio('Hello Ted. I am a pumpkin.')
 
   // get TTS audio and pipe to speaker
-  https.get(url, function(res) { res.pipe(speaker) }) 
+  https.get(ttsURL, function(res) { res.pipe(speaker) }) 
 
 
   const recognizerStream = speech_to_text.createRecognizeStream({ content_type: 'audio/l16; rate=16000', continuous: true, inactivity_timeout: 1, interim_results: false })
