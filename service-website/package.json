@@ -1,10 +1,11 @@
 {
   "name": "smartdeco",
   "version": "0.0.1",
+  "description": "",
   "private": true,
   "main": "index.js",
   "scripts": {
-    "deploy": "now --alias smartdeco.ai",
+    "deploy": "now && now alias",
     "start": "node index.js"
   },
   "repository": {
@@ -24,6 +25,9 @@
     "express": "^4.15.2",
     "mustache-express": "^1.2.4"
   },
-  "devDependencies": {},
-  "description": ""
+  "now": {
+    "alias": [
+      "smartdeco.ai", "www.smartdeco.ai"
+    ]
+  }
 }
