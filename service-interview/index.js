@@ -40,7 +40,7 @@ function idleState() {
     // Detection sensitivity controls how sensitive the detection is.
     // It is a value between 0 and 1. Increasing the sensitivity value
     // leads to better detection rate, but also higher false alarm rate.
-    // It is an important parameter that you should play with in your 
+    // It is an important parameter that you should play with in your
     // actual application.
     sensitivity: '0.4',
     hotwords : 'pumpkin'
@@ -122,7 +122,7 @@ function recordingState() {
     })
 
     text = ''
-    recognizerStream = speech_to_text.createRecognizeStream({ content_type: 'audio/l16; rate=16000', continuous: true, inactivity_timeout: 1 })
+    recognizerStream = speech_to_text.createRecognizeStream({ content_type: 'audio/l16; rate=16000', inactivity_timeout: 1 })
 
     recognizerStream.on('error', function(event) {
       //console.log('er', event)
@@ -144,7 +144,7 @@ function recordingState() {
 
       fsm.setState('IDLE')
     })
-    
+
     recognizerStream.on('data', function(data) {
       text += data.toString()
       //console.log('watson stt results:', data.toString())
