@@ -10,12 +10,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "aws-sdk": "^2.58.0",
+    "aws-sdk": "^2.82.0",
     "dotenv": "^4.0.0",
     "entities": "^1.1.1",
     "node-record-lpcm16": "^0.3.0",
     "snowboy": "^1.1.0",
     "speaker": "^0.3.0",
-    "watson-developer-cloud": "^2.32.1"
+    "watson-developer-cloud": "^2.34.0"
   }
 }

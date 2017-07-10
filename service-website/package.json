@@ -23,11 +23,12 @@
     "cors": "^2.8.1",
     "dotenv": "^4.0.0",
     "express": "^4.15.2",
-    "mustache-express": "^1.2.4"
+    "mustache-express": "^1.2.5"
   },
   "now": {
     "alias": [
-      "smartdeco.ai", "www.smartdeco.ai"
+      "smartdeco.ai",
+      "www.smartdeco.ai"
     ]
   }
 }
