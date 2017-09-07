@@ -5,17 +5,18 @@
   "private": true,
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "aws-sdk": "^2.100.0",
+    "aws-sdk": "^2.110.0",
     "dotenv": "^4.0.0",
     "entities": "^1.1.1",
     "node-record-lpcm16": "^0.3.0",
     "snowboy": "^1.1.0",
-    "speaker": "^0.3.0",
-    "watson-developer-cloud": "^2.38.0"
+    "speaker": "^0.4.0",
+    "watson-developer-cloud": "^2.39.0"
   }
 }
