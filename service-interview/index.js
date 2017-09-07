@@ -111,8 +111,8 @@ function recordingState() {
   let recognizerStream, text, mic
 
   const speech_to_text = new STT({
-    username: process.env.WATSON_USERNAME,
-    password: process.env.WATSON_PASSWORD
+    username: process.env.WATSON_SPEECH_TO_TEXT_USERNAME,
+    password: process.env.WATSON_SPEECH_TO_TEXT_PASSWORD
   })
 
   let enter = async function() {
