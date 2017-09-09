@@ -4,11 +4,11 @@ module.exports = function fsm() {
   const states = {}
   let currentState
 
-  let addState = function(stateName, state) {
+  const addState = function(stateName, state) {
     states[stateName] = state
   }
 
-  let setState = function(stateName, ...args) {
+  const setState = function(stateName, ...args) {
     if (stateName === currentState) {
       return // already in the state
     }
