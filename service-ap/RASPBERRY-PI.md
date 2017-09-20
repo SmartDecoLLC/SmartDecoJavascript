@@ -7,80 +7,61 @@ sudo raspi-config
 ```
 
 * enable ssh login
+* auto login as raspberry pi user
 * under internationalization options, set locale to `en_us`
 * choose generic 101 key keyboard.
 
 save changes and exit to command prompt.
 
+plug in an ethernet cable.
+
 ```bash
 sudo reboot
 ```
 
+login to the machine, find out it's ip address, and ssh in (a terminal in osx
+will be easier to work with since you can copy/paste stuff)
 
 ```bash
 curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 sudo apt-get install -y nodejs haveged hostapd isc-dhcp-server git
+
+# ensure dhcp server is bound to wlan0 interface
+sudo cp isc-dhcp-server-default /etc/default/isc-dhcp-server
+
+# prevent the services from running automatically on boot
+sudo systemctl disable hostapd
+sudo systemctl disable isc-dhcp-server
+sudo systemctl disable wpa_supplicant@wlan0
+
+sudo cp hostapd.conf-default /etc/default/hostapd
 ```
 
 
-Set up a DHCP server. `sudo nano /etc/dhcp/dhcpd.conf` and add the following lines:
-
+running in hostap mode:
 ```bash
-subnet 10.10.0.0 netmask 255.255.255.0 {
-range 10.10.0.25 10.10.0.50;
-option domain-name-servers 8.8.4.4;
-option routers 10.10.0.1;
-interface wlan0;
-}
+sudo ./enable-master.sh
 ```
-
-save and exit.
-
-
-To bring up wlan0 at boot, add the following to `/etc/network/interfaces`
-
-```bash
-auto wlan0
-iface wlan0 inet static
-address 10.10.0.1
-netmask 255.255.255.0
-```
-
-
-add a config file for hostapd:
-
-`sudo nano /etc/hostapd/hostapd.conf`
-
-fill it with:
-```bash
-interface=wlan0
-ssid=smartdeco
-hw_mode=g
-channel=11
-wpa=1
-wpa_passphrase=
-wpa_key_mgmt=WPA-PSK
-wpa_pairwise=TKIP CCMP
-wpa_ptk_rekey=600
-macaddr_acl=0
-```
-
-start the access point by running `hostapd -d /etc/hostapd/hostapd.conf`
-
 You'll now see `smartdeco` in the wifi access point list in any local wireless devices :)
+You then browse to http://10.10.0.1 on the machine that will display the setup page.
 
-To start hostapd automatically, add the command to `/etc/rc.local`, just before `exit 0`:
 
+running in wireless client mode:
 ```bash
-sudo hostapd -B /etc/hostapd/hostapd.conf
+sudo ./enable-client.sh
 ```
 
-`-B` is for running in the background, as a daemon. Messages are logged in `/var/log/syslog`.
 
-now check out the smartdeco code from git, and follow all of the instructions in INSTALL.md
+### references
 
-run `./install.sh`
+https://www.digikey.com/en/maker/blogs/raspberry-pi-3-how-to-configure-wi-fi-and-bluetooth/03fcd2a252914350938d8c5471cf3b63
 
-You then browse to http://10.10.0.1:5000 on the machine that will display the game.
+scan and connect to wifi:  https://www.npmjs.com/package/iwlist
 
-Phone clients should browse to http://10.10.0.1:5001 to play the game
+https://learn.adafruit.com/setting-up-a-raspberry-pi-as-a-wifi-access-point/install-software
+
+https://askubuntu.com/questions/795226/how-to-list-all-enabled-services-from-systemctl
+
+https://raspberrypi.stackexchange.com/questions/44184/switch-between-ap-and-client-mode
+
+https://askubuntu.com/questions/140126/how-do-i-install-and-configure-a-dhcp-server
