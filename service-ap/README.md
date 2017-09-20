@@ -7,13 +7,11 @@ user interface to connect to internet wifi.
 super fancy UI mockup:
 ```
 +---------------------------+
-|                           |
 |   SmartDeco Wifi Setup    |
 |                           |
-| choose a wireless network |
+|     choose network:       |
 |                           |
 | +-----------------------+ |
-| |                       | |
 | |  SmartDeco-Setup-EC18 | |
 | |                       | |
 | |  Kim's House          | |
@@ -23,7 +21,6 @@ super fancy UI mockup:
 | |  Arthur's Study       | |
 | |                       | |
 | |  Ted's secret hideout | |
-| |                       | |
 | +-----------------------+ |
 |                           |
 | +-----------------------+ |
