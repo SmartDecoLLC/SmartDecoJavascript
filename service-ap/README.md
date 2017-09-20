@@ -14,11 +14,11 @@ super fancy UI mockup:
 |                           |
 | +-----------------------+ |
 | |                       | |
-| |  SmartDeco Setup  �🖧 | |
+| |  SmartDeco-Setup-EC18 | |
 | |                       | |
 | |  Kim's House          | |
 | |                       | |
-| |  TV Bros Palace       | |
+| |  TV Bro's Palace      | |
 | |                       | |
 | |  Arthur's Study       | |
 | |                       | |
@@ -27,8 +27,7 @@ super fancy UI mockup:
 | +-----------------------+ |
 |                           |
 | +-----------------------+ |
-| |        SELECT         | |
+| |       CONNECT         | |
 | +-----------------------+ |
 +---------------------------+
-
 ```
