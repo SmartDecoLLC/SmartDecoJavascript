@@ -2,11 +2,8 @@
 
 # connects to wifi client. must run this with sudo
 
-SSID="Sonic-2630"
-PSK="7efv4y6p3yk3"
-
-# write the wireless access point to
-SSID=$SSID PSK=$PSK node write_wpa_config.js
+# write the wireless access point config data from .env
+node write_wpa_config.js
 
 systemctl stop hostapd.service
 systemctl stop isc-dhcp-server.service

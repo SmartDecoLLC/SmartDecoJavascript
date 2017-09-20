@@ -1,6 +1,7 @@
 'use strict'
 
-const fs = require('fs')
+const dotenv = require('dotenv').config()
+const fs     = require('fs')
 
 
 const wpa = `country=US
