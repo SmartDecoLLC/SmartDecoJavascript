@@ -28,3 +28,14 @@ super fancy UI mockup:
 | +-----------------------+ |
 +---------------------------+
 ```
+
+on clicking `CONNECT`:
+* disable connect button
+* if the ap is password protected first show the password dialog.
+* If the ap is not password protected or when the password dialog is submitted:
+  * display page saying "please wait while we attempt to connect your pumpkin to the wifi"
+  * generate an id
+  * send ap and id to backend
+
+this might be a great candidate for implementing a service worker.
+on supported platforms it'd enable offline support
