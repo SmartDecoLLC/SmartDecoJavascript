@@ -21,3 +21,10 @@ https://googlechrome.github.io/samples/web-bluetooth/index.html
 https://github.com/strangesast/bleno
 https://github.com/strangesast/bleno-web-pizza-example
 https://www.uuidgenerator.net/
+
+## TODO
+
+* implement write characteristics for ssid, password
+* peripheral: attempt to connect to the wifi upon receiving ssid, password
+* peripheral: report status back to web interface
+* cleanup web interface
