@@ -1,0 +1,15 @@
+{
+  "name": "bt-peripheral",
+  "private": true,
+  "version": "1.0.0",
+  "description": "bluetooth peripheral to set up wifi connectivity on smartdeco appliances",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bleno": "^0.4.2"
+  }
+}

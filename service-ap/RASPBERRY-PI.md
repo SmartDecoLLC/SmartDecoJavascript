@@ -6,6 +6,9 @@ install raspbian lite (latest version)
 sudo raspi-config
 ```
 
+TODO: look at raspi-config source and figure out how to do these from the command line
+https://github.com/RPi-Distro/raspi-config/blob/master/raspi-config
+
 * enable ssh login
 * auto login as raspberry pi user
 * under internationalization options, set locale to `en_us`
