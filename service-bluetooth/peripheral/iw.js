@@ -4,6 +4,7 @@ const iwlist = require('iwlist')
 
 module.exports = function iw(options={}) {
   const dev = options.dev || 'wlan0'
+  const frequency = options.frequency || 5000 // millis to wait between wifi scans
   const iw = iwlist(dev)
 
   // key is mac address, value is access point object
@@ -31,7 +32,7 @@ module.exports = function iw(options={}) {
 
   const start = function() {
     if(!_poll)
-      _poll = setInterval(_scan, 5000)
+      _poll = setInterval(_scan, frequency)
   }
 
   const stop = function() {
@@ -43,6 +44,7 @@ module.exports = function iw(options={}) {
   }
 
   const _cleanStaleAps = function() {
+    const now = Date.now()
     // TODO: remove old ips that we haven't seen in a while from the object
   }
 

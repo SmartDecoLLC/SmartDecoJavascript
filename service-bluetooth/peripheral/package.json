@@ -5,6 +5,7 @@
   "description": "bluetooth peripheral to set up wifi connectivity on smartdeco appliances",
   "main": "index.js",
   "scripts": {
+    "start": "hciconfig hci0 up && node index",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

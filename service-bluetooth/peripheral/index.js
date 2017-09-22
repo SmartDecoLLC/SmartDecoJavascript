@@ -5,6 +5,7 @@ const AccessPointService = require('./service-ap')
 
 
 const myName = 'smartdeco-setup'
+process.env.BLENO_DEVICE_NAME = myName
 
 const apService = new AccessPointService()
 
