@@ -4,6 +4,7 @@ all services that power the smartdeco product
 
 ```
 |- service-ap/
+|- service-bluetooth/
 |- service-interview/
 `- service-website/
 ```
@@ -11,4 +12,4 @@ all services that power the smartdeco product
 * `service-ap/` expirimentation around a hosted access point to configure wifi connectivity
 * `service-bluetooth` expirimentation around a bluetooth peripheral to configure wifi connectivity
 * `service-interview/` node based command line conversation agent
-* `service-website/`  express server that powers `https://smartdeco.ai`
+* `service-website/`  static website https://smartdeco.ai
