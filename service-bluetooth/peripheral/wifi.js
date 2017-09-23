@@ -43,6 +43,8 @@ async function ex(cmd) {
 // return true on successful connect
 async function attemptWifi(iw, essid, password) {
   await writeWifiWPAConfig(essid, password)
+  await ex('sudo ifdown wlan0')
+  await ex('sudo ifup wlan0')
   await ex('sudo wpa_cli reconfigure')
 
   console.log('checking online status')
