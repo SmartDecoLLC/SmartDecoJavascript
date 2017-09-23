@@ -4,6 +4,7 @@ const bleno   = require('bleno')
 const list    = require('./characteristic-list')
 const setSSID = require('./characteristic-ssid')
 const setPass = require('./characteristic-pwd')
+const status  = require('./characteristic-status')
 const util    = require('util')
 
 
@@ -13,7 +14,8 @@ function AccessPointService() {
     characteristics: [
       new list(),
       new setSSID(),
-      new setPass()
+      new setPass(),
+      new status()
     ]
   })
 }

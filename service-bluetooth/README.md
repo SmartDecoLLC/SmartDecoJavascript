@@ -20,6 +20,7 @@ http://blog.fraggod.net/2015/11/28/raspberry-pi-early-boot-splash-logo-screen.ht
 
 ## TODO
 
-* peripheral: report status back to web interface
 * cleanup web interface
 * splash screen while booting
+* choose a custom name when setting up the bluetooth server (e.g., smartdeco-setup-19E)
+* change ssl login to use pem cert

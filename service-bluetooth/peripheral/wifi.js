@@ -1,6 +1,7 @@
 'use strict'
 
-const exec  = require('child_process').exec
+const delay  = require('delay')
+const exec   = require('child_process').exec
 const fs     = require('fs')
 const iwlist = require('./iw')
 const pubsub = require('ev-pubsub')
@@ -121,9 +122,10 @@ function wifi() {
       mode = 'connected'
     } else {
       scan()
+      publish('wifi-status', 'wifi-join-failed')
+      await delay(2000)
     }
-    console.log('wifi-connected', result)
-    publish('wifi-connected', result)
+    publish('wifi-status', mode)
   }
 
   const _checkCredentials = function() {

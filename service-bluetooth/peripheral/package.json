@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "bleno": "^0.4.2",
+    "delay": "^2.0.0",
     "ev-pubsub": "^2.2.0",
     "iwlist": "0.0.5"
   }
