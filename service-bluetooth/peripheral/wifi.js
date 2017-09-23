@@ -6,29 +6,6 @@ const iwlist = require('./iw')
 const pubsub = require('ev-pubsub')
 
 
-async function writeInterfaceConfig(essid, password) {
-  const interfaces = `#auto lo
-
-#iface lo inet loopback
-#iface eth0 inet dhcp
-
-#allow-hotplug wlan0
-auto wlan0
-
-iface wlan0 inet dhcp
-#        wpa-ssid "${essid}"
-#        wpa-psk "${password}"`
-
-  return new Promise(function(resolve, reject) {
-    fs.writeFile('/etc/network/interfaces', interfaces, function(er) {
-      if(er)
-        return reject(er)
-      resolve()
-    })
-  })
-}
-
-
 async function writeWifiWPAConfig(essid, password) {
   const wpa = `country=US
 ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
@@ -65,39 +42,11 @@ async function ex(cmd) {
 
 // return true on successful connect
 async function attemptWifi(iw, essid, password) {
-  await writeInterfaceConfig(essid, password)
   await writeWifiWPAConfig(essid, password)
-
-  //console.log('restarting wpa_supplicant')
-  //await ex('sudo systemctl restart wpa_supplicant')
-  //await ex('sudo ifdown wlan0')
-  //await ex('sudo ifup wlan0')
-
-  //await ex('sudo dhclient wlan0')
-
-  // sudo service networking restart
-  /*
-  let r
-  //console.log('restarting network')
-  //r = await ex('sudo systemctl restart networking')
-  await ex('sudo systemctl restart wpa_supplicant')
-
-  console.log('linking')
-  await ex('sudo iw wlan0 link')
-
-  console.log('getting lease from dhcp server')
-  await ex('sudo dhclient wlan0')
-
-  //dhclient -r wlan0
-  // request IP address:
-  //dhclient wlan0
-  */
-
-  // service networking restart
-
-  const start = Date.now()
+  await ex('sudo wpa_cli reconfigure')
 
   console.log('checking online status')
+  const start = Date.now()
 
   // try to connect for up to 10 seconds
   while(Date.now() - start < 10000) {
