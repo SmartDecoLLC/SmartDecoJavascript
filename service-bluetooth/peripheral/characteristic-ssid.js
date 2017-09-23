@@ -3,6 +3,7 @@
 const bleno = require('bleno')
 const os    = require('os')
 const util  = require('util')
+const wifi  = require('./wifi')
 
 
 // set the access point SSID we're connecting to
@@ -16,8 +17,7 @@ const SetSSIDCharacteristic = function() {
 }
 
 SetSSIDCharacteristic.prototype.onWriteRequest = function(data, offset, withoutResponse, callback) {
-  this._value = data.toString()
-  console.log('setSSID:', this._value)
+  wifi.setSSID(data.toString())
   callback(this.RESULT_SUCCESS)
 }
 

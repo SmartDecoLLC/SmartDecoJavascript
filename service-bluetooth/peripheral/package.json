@@ -11,6 +11,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bleno": "^0.4.2"
+    "bleno": "^0.4.2",
+    "ev-pubsub": "^2.2.0",
+    "iwlist": "0.0.5"
   }
 }

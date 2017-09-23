@@ -3,6 +3,7 @@
 const bleno = require('bleno')
 const os    = require('os')
 const util  = require('util')
+const wifi  = require('./wifi')
 
 
 // set the password of the access point we're connecting to
@@ -16,8 +17,7 @@ const SetPasswordCharacteristic = function() {
 }
 
 SetPasswordCharacteristic.prototype.onWriteRequest = function(data, offset, withoutResponse, callback) {
-  this._value = data.toString()
-  console.log('setPass:', this._value)
+  wifi.setPassword(data.toString())
   callback(this.RESULT_SUCCESS)
 }
 

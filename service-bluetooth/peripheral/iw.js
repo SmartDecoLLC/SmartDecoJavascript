@@ -11,6 +11,29 @@ module.exports = function iw(options={}) {
   const aps = {}
   let _poll
 
+  const isOnline = async function() {
+    return new Promise(function(resolve, reject) {
+      iw.online(function(er) {
+        if(er)
+          resolve(false)
+        else
+          resolve(true)
+      })
+    })
+  }
+  const start = function() {
+    if(!_poll)
+      _poll = setInterval(_scan, frequency)
+  }
+
+  const stop = function() {
+    if(!_poll)
+      return
+
+    clearInterval(_poll)
+    _poll = undefined
+  }
+
   const _scan = async function() {
     return new Promise(function(resolve, reject) {
       iw.scan(function(er, items) {
@@ -30,23 +53,10 @@ module.exports = function iw(options={}) {
     })
   }
 
-  const start = function() {
-    if(!_poll)
-      _poll = setInterval(_scan, frequency)
-  }
-
-  const stop = function() {
-    if(!_poll)
-      return
-
-    clearInterval(_poll)
-    _poll = undefined
-  }
-
   const _cleanStaleAps = function() {
     const now = Date.now()
     // TODO: remove old ips that we haven't seen in a while from the object
   }
 
-  return Object.freeze({ aps, start, stop })
+  return Object.freeze({ aps, isOnline, start, stop })
 }
