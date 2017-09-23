@@ -21,10 +21,11 @@ https://googlechrome.github.io/samples/web-bluetooth/index.html
 https://github.com/strangesast/bleno
 https://github.com/strangesast/bleno-web-pizza-example
 https://www.uuidgenerator.net/
+http://blog.fraggod.net/2015/11/28/raspberry-pi-early-boot-splash-logo-screen.html
+
 
 ## TODO
 
-* implement write characteristics for ssid, password
-* peripheral: attempt to connect to the wifi upon receiving ssid, password
 * peripheral: report status back to web interface
 * cleanup web interface
+* splash screen while booting

@@ -30,7 +30,3 @@ sudo systemctl daemon-reload
 sudo systemctl enable smartdeco.service
 sudo systemctl start smartdeco.service
 ```
-
-
-TODO: custom splash screen
-http://blog.fraggod.net/2015/11/28/raspberry-pi-early-boot-splash-logo-screen.html
