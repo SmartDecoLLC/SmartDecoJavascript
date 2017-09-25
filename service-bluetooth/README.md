@@ -24,3 +24,6 @@ http://blog.fraggod.net/2015/11/28/raspberry-pi-early-boot-splash-logo-screen.ht
 * splash screen while booting
 * choose a custom name when setting up the bluetooth server (e.g., smartdeco-setup-19E)
 * change ssl login to use pem cert
+* start creating re-distributable image:
+   * https://medium.com/a-swift-misadventure/backing-up-your-raspberry-pi-sd-card-on-mac-the-simple-way-398a630f899c
+   * https://raspberrypi.stackexchange.com/questions/311/how-do-i-backup-my-raspberry-pi
