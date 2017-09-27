@@ -1,4 +1,4 @@
-install raspbian lite (newest version of Jessie)
+install newest version of raspbian lite
 
 ```bash
 sudo raspi-config
@@ -29,4 +29,14 @@ sudo cp smartdeco.service /lib/systemd/system/
 sudo systemctl daemon-reload
 sudo systemctl enable smartdeco.service
 sudo systemctl start smartdeco.service
+```
+
+for some reason node 8.6.0 doesn't support armv61. I had to apply these instructions to manually build:
+
+```bash
+wget https://nodejs.org/dist/v8.5.0/node-v8.5.0-linux-armv6l.tar.xz
+tar xvf node-v8.5.0-linux-armv6l.tar.xz
+cd node-v8.5.0-linux-armv6l/
+sudo cp -R bin/* /usr/bin/
+sudo cp -R lib/* /usr/lib/
 ```
