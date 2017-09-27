@@ -1,28 +1,163 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="SmartDeco Bluetooth Setup">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>SmartDeco Bluetooth Setup</title>
-    <script>
-      // Add a global error event listener early on in the page load, to help ensure that browsers
-      // which don't support specific functionality still end up displaying a meaningful message.
-      window.addEventListener('error', function(error) {
-        console.error(error)
-      })
-    </script>
-  </head>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="SmartDeco Bluetooth Setup">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SmartDeco Bluetooth Setup</title>
+<script>
+  // Add a global error event listener early on in the page load, to help ensure that browsers
+  // which don't support specific functionality still end up displaying a meaningful message.
+  window.addEventListener('error', function(error) {
+    console.error(error)
+  })
+</script>
 
-  <body>
+<style>
+@import url(https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900);
+@import url(https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700);
 
-<form>
-  <button id="startNotifications">Start</button>
-  <button id="stopNotifications" style="display:''">Stop</button>
-</form>
+body{
+  color:#4a5b65;
+  font-family: "Roboto", Arial, sans-serif;
+  font-size:18px;
+  line-height: 20px;
+}
 
-<ul id="aps"></ul>
+button {
+  text-transform: uppercase;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.tdl-holder {
+  margin:0px auto;
+  width: 300px;
+}
+
+.tdl-holder h2 {
+  background-color: orange; /*#de3f53; */
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  color:#fff;
+  font-family:"Roboto Condensed", Arial, sans-serif;
+  font-size:22px;
+  font-weight: 100;
+  line-height: 46px;
+  padding-left: 15px;
+  margin:0;
+  text-transform: uppercase;s
+}
+
+.tdl-holder ul, .tdl-holder li {
+  list-style: none;
+  margin:0;
+  padding:0;
+}
+
+.tdl-holder li {
+  background-color: #262e4c;
+  border-bottom:1px solid #1c2340;
+  color: #b1b2c9;
+  cursor:pointer;
+  display:block;
+  line-height: 46px;
+  padding: 0 15px;
+  position: relative;
+}
+
+.tdl-holder li:hover{
+  background-color: #2a3353;
+  color: whitesmoke; /*#8284a3; */
+}
+
+.tdl-holder li:last-child {
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.card {
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.spinner {
+  display: flex;
+  align-items: center;
+  padding:10px;
+}
+
+#ap-name {
+  font-weight: bold;
+}
+
+</style>
+</head>
+<body>
+
+<div id="bluetooth-pair-card" class="card">
+  <p>
+    Make sure your smartdeco pumpkin is on and nearby.
+  </p>
+  <form>
+    <button id="startNotifications">Connect</button>
+    <button id="stopNotifications" style="display:none">Stop</button>
+  </form>
+</div>
+
+<div id="wifi-join-result-card" class="card" style="display:none">
+  <p id="join-success" style="background-color:limegreen; text-transform: uppercase; padding: 10px; color:white">connected</p>
+  <p id="join-failed" style="background-color: orangered; text-transform: uppercase; padding: 10px; color:white">connection failed</p>
+  <p id="join-output">
+    Your smart deco pumpkin is now connected to the internet! You can close this page now.
+  </p>
+</div>
+
+
+<div id="wifi-connecting-card" class="card" style="display:none">
+  <p>
+    Please wait while your smartdeco pumpkin joins <span id="ap-name">access point</span>.
+  </p>
+  <div class="spinner">
+    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="30px" height="30px" viewBox="0 0 24 30" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+      <rect x="0" y="10" width="4" height="10" fill="#262e4c" opacity="0.2">
+        <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0s" dur="1s" repeatCount="indefinite" />
+        <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0s" dur="1s" repeatCount="indefinite" />
+        <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0s" dur="1s" repeatCount="indefinite" />
+      </rect>
+      <rect x="8" y="10" width="4" height="10" fill="#262e4c"  opacity="0.2">
+        <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.15s" dur="1s" repeatCount="indefinite" />
+        <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0.15s" dur="1s" repeatCount="indefinite" />
+        <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.15s" dur="1s" repeatCount="indefinite" />
+      </rect>
+      <rect x="16" y="10" width="4" height="10" fill="#262e4c"  opacity="0.2">
+        <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.3s" dur="1s" repeatCount="indefinite" />
+        <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0.3s" dur="1s" repeatCount="indefinite" />
+        <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.3s" dur="1s" repeatCount="indefinite" />
+      </rect>
+      <rect x="24" y="10" width="4" height="10" fill="#262e4c"  opacity="0.2">
+        <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.45s" dur="1s" repeatCount="indefinite" />
+        <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0.45s" dur="1s" repeatCount="indefinite" />
+        <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.45s" dur="1s" repeatCount="indefinite" />
+      </rect>
+    </svg>
+    <span style="padding-left: 14px">Connecting</span>
+  </div>
+</div>
+
+
+<div id="select-ap-card" class="card" style="display:none">
+  <p>Please select a wifi access point:</p>
+  <div class="tdl-holder">
+    <h2>Access Points</h2>
+    <div class="tdl-content">
+      <ul id="aps"> </ul>
+    </div>
+  </div>
+</div>
 
 <script>
   // key is ap name, value is not used
@@ -37,6 +172,8 @@
 
   async function onStartButtonClick() {
     try {
+      document.getElementById('bluetooth-pair-card').style.display = 'none'
+
       console.log('Requesting Bluetooth Device...')
       const device = await navigator.bluetooth.requestDevice({
           filters: [{ services: [ serviceUuid ] }]})
@@ -61,8 +198,11 @@
           handleNotifications)
       statusCharacteristic.addEventListener('characteristicvaluechanged',
           handleStatusNotifications)
+
+      document.getElementById('select-ap-card').style.display = ''
     } catch(error) {
       console.log('Argh! ' + error)
+      document.getElementById('bluetooth-pair-card').style.display = ''
     }
   }
 
@@ -82,6 +222,7 @@
     }
   }
 
+
   function renderAPList(aps) {
     var el = document.getElementById('aps')
     //el.innerHTML = ''
@@ -99,7 +240,10 @@
         var enc = new TextEncoder('utf-8')
         setSSIDCharacteristic.writeValue(enc.encode(this.innerText))
         setPasswordCharacteristic.writeValue(enc.encode(pwd))
-        // TODO: set ui to connecting mode
+        document.getElementById('ap-name').innerText = this.innerText
+        document.getElementById('wifi-connecting-card').style.display = ''
+        document.getElementById('select-ap-card').style.display = 'none'
+        document.getElementById('wifi-join-result-card').style.display = 'none'
       }
       el.appendChild(d)
     })
@@ -116,6 +260,20 @@
     var dec = new TextDecoder('utf-8')
     var newStatus = dec.decode(event.target.value)
     console.log('TODO: deal with new status:', newStatus)
+    if(newStatus === 'wifi-join-failed') {
+      document.getElementById('join-success').style.display = 'none'
+      document.getElementById('join-failed').style.display = ''
+      document.getElementById('wifi-connecting-card').style.display = 'none'
+      document.getElementById('wifi-join-result-card').style.display = ''
+      document.getElementById('select-ap-card').style.display = ''
+      document.getElementById('join-output').innerText = 'Failed to join the wifi network. Please try again.'
+    } else if (newStatus === 'connected') {
+      document.getElementById('join-success').style.display = ''
+      document.getElementById('join-failed').style.display = 'none'
+      document.getElementById('join-output').innerText = 'Your smart deco pumpkin is now connected to the internet! You can close this page now.'
+      document.getElementById('wifi-connecting-card').style.display = 'none'
+      document.getElementById('wifi-join-result-card').style.display = ''
+    }
   }
 
   document.querySelector('#startNotifications').addEventListener('click', function(event) {
@@ -148,5 +306,5 @@
   }
 </script>
 
-  </body>
+</body>
 </html>
