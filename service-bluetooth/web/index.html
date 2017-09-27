@@ -259,7 +259,6 @@ button {
   function handleStatusNotifications(event) {
     var dec = new TextDecoder('utf-8')
     var newStatus = dec.decode(event.target.value)
-    console.log('TODO: deal with new status:', newStatus)
     if(newStatus === 'wifi-join-failed') {
       document.getElementById('join-success').style.display = 'none'
       document.getElementById('join-failed').style.display = ''
@@ -273,6 +272,8 @@ button {
       document.getElementById('join-output').innerText = 'Your smart deco pumpkin is now connected to the internet! You can close this page now.'
       document.getElementById('wifi-connecting-card').style.display = 'none'
       document.getElementById('wifi-join-result-card').style.display = ''
+    } else {
+      console.log('TODO: deal with unhandled status:', newStatus)
     }
   }
 
