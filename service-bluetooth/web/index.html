@@ -19,7 +19,7 @@
 
 <form>
   <button id="startNotifications">Start</button>
-  <button id="stopNotifications">Stop</button>
+  <button id="stopNotifications" style="display:''">Stop</button>
 </form>
 
 <ul id="aps"></ul>
@@ -70,9 +70,12 @@
     if (listCharacteristic) {
       try {
         await listCharacteristic.stopNotifications()
+        await statusCharacteristic.stopNotifications()
         console.log('> Notifications stopped')
         listCharacteristic.removeEventListener('characteristicvaluechanged',
             handleNotifications)
+        statusCharacteristic.removeEventListener('characteristicvaluechanged',
+            handleStatusNotifications)
       } catch(error) {
         console.log('Argh! ' + error)
       }

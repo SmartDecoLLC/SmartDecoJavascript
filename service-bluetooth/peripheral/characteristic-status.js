@@ -26,6 +26,7 @@ StatusCharacteristic.prototype.onSubscribe = function(maxValueSize, updateValueC
 
 StatusCharacteristic.prototype.onUnsubscribe = function() {
   console.log('StatusCharacteristic unsubscribe')
+  wifi.unsubscribe('wifi-status')
 }
 
 util.inherits(StatusCharacteristic, BlenoCharacteristic)
