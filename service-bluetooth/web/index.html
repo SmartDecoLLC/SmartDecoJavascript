@@ -233,11 +233,11 @@ button {
       d.id = 'ap-' + ap
       d.innerText = ap
       d.style.cursor = 'pointer'
-      d.onclick = function(ev) {
+      d.onclick = async function(ev) {
         var pwd = prompt('please enter the password for ' + this.innerText + ':')
         var enc = new TextEncoder('utf-8')
-        setSSIDCharacteristic.writeValue(enc.encode(this.innerText))
-        setPasswordCharacteristic.writeValue(enc.encode(pwd))
+        await setSSIDCharacteristic.writeValue(enc.encode(this.innerText))
+        await setPasswordCharacteristic.writeValue(enc.encode(pwd))
         document.getElementById('ap-name').innerText = this.innerText
         document.getElementById('wifi-connecting-card').style.display = ''
         document.getElementById('select-ap-card').style.display = 'none'
@@ -257,6 +257,7 @@ button {
   function handleStatusNotifications(event) {
     var dec = new TextDecoder('utf-8')
     var newStatus = dec.decode(event.target.value)
+    console.log('status:', newStatus)
     if(newStatus === 'wifi-join-failed') {
       document.getElementById('join-success').style.display = 'none'
       document.getElementById('join-failed').style.display = ''
