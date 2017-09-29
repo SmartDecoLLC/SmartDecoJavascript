@@ -31,7 +31,7 @@ sudo systemctl enable smartdeco.service
 sudo systemctl start smartdeco.service
 ```
 
-for some reason node 8.6.0 doesn't support armv61. I had to apply these instructions to manually build:
+node 8.6.0 doesn't support armv61. I had to manually downgrade/build 8.5.0:
 
 ```bash
 wget https://nodejs.org/dist/v8.5.0/node-v8.5.0-linux-armv6l.tar.xz
