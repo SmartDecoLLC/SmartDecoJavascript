@@ -9,13 +9,11 @@ module.exports = function fsm() {
   }
 
   const setState = function(stateName, ...args) {
-    if (stateName === currentState) {
+    if (stateName === currentState)
       return // already in the state
-    }
 
-    if (!states[stateName]) {
+    if (!states[stateName])
       return // new state doesn't exist
-    }
 
     if (currentState) {
       console.log('exiting state', currentState)
