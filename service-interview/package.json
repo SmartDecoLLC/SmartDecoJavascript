@@ -17,6 +17,6 @@
     "snowboy": "^1.1.0",
     "speaker": "^0.4.0",
     "tts-polly": "github:voiceco/tts-polly",
-    "watson-developer-cloud": "^2.41.1"
+    "watson-developer-cloud": "^2.42.0"
   }
 }
