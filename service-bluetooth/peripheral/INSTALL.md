@@ -25,7 +25,7 @@ sudo systemctl stop bluetooth
 sudo systemctl disable bluetooth
 
 # enable smartdeco service to run at boot
-sudo cp smartdeco.service /lib/systemd/system/
+sudo cp smartdeco-bt.service /lib/systemd/system/
 sudo systemctl daemon-reload
 sudo systemctl enable smartdeco.service
 sudo systemctl start smartdeco.service

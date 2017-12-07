@@ -1,5 +1,5 @@
 [Unit]
-Description=smartdeco service
+Description=smartdeco bluetooth service
 After=syslog.target network.target
 
 [Service]
