@@ -9,4 +9,4 @@ node_modules
 *.rej
 bundle*.js
 *.zip
-!cache/*
+cache
