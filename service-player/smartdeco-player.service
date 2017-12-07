@@ -1,0 +1,20 @@
+[Unit]
+Description=smartdeco content player service
+After=syslog.target network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+WorkingDirectory=/home/pi/SmartDeco/service-player
+ExecStart=/usr/bin/npm start
+Environment="NODE_ENV=production"
+Environment="AWS_REGION=us-east-1"
+Restart=on-failure
+KillSignal=SIGINT
+# Tag things in the log
+SyslogIdentifier=smartdeco
+#StandardOutput=syslog
+
+[Install]
+WantedBy=multi-user.target

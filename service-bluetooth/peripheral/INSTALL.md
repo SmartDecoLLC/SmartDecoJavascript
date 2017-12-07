@@ -27,8 +27,8 @@ sudo systemctl disable bluetooth
 # enable smartdeco service to run at boot
 sudo cp smartdeco-bt.service /lib/systemd/system/
 sudo systemctl daemon-reload
-sudo systemctl enable smartdeco.service
-sudo systemctl start smartdeco.service
+sudo systemctl enable smartdeco-bt.service
+sudo systemctl start smartdeco-bt.service
 ```
 
 node 8.6.0 doesn't support armv61. I had to manually downgrade/build 8.5.0:

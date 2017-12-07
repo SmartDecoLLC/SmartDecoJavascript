@@ -15,7 +15,6 @@ async function run() {
   while(true) {
     if(fs.existsSync(cacheDir)) {
       const files = fs.readdirSync(cacheDir)
-      console.log(files)
 
       // play a random file
       let idx = Math.floor(Math.random() * files.length)
