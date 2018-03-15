@@ -1,4 +1,4 @@
-instructions on how to set up a raspberry pi as a hotspot/appliance
+instructions on how to set up a raspberry pi as a wifi hotspot/appliance
 
 install raspbian lite (latest version)
 
