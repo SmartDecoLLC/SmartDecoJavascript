@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^4.0.0",
-    "serve": "^6.4.11"
+    "dotenv": "^5.0.1",
+    "serve": "^6.5.3"
   }
 }
